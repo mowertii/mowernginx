@@ -1,0 +1,22 @@
+
+[servers]
+mowertii-vm-1 ansible_ssh_host=10.48.0.244 
+mowertii-vm-2 ansible_ssh_host=10.48.0.245 
+mowertii-vm-3 ansible_ssh_host=10.48.0.246
+
+[bd]
+mowertii-vm-3
+[web]
+mowertii-vm-2
+
+[ansible]
+mowertii-vm-1
+
+[ubuntu]
+mowertii-vm-3
+mowertii-vm-1
+mowertii-vm-2
+
+[apache]
+mowertii-vm-1
+mowertii-vm-3

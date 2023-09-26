@@ -1,0 +1,42 @@
+---
+
+- name: Example Simple Playbook
+  hosts: all
+  #become: yes
+  user: root
+  tasks:
+      - name: Install zabbix-agent
+        ansible.builtin.package:
+           name: zabbix-agent
+           state: present
+   
+      - name: Start and enable Zabbix agent service
+        ansible.builtin.service:
+           name: zabbix-agent
+           state: started
+           enabled: true
+      
+      - name: Настройка ServerActive zabbix_agentd.conf
+        ansible.builtin.lineinfile:
+           path: /etc/zabbix/zabbix_agentd.conf
+           regexp: '^ServerActive='
+           line: 'ServerActive=172.22.10.4,10.48.0.245'
+   
+      
+      - name: Настройка Hostname zabbix_agentd.conf
+        ansible.builtin.lineinfile:
+           path: /etc/zabbix/zabbix_agentd.conf
+           regexp: '^Hostname='
+           line: 'Hostname={{ ansible_hostname }}'
+   
+      - name: Configure Zabbix agent settings
+        ansible.builtin.lineinfile:
+          path: /etc/zabbix/zabbix_agentd.conf
+          regexp: '^Server='
+          line: 'Server=10.48.0.245'
+
+  handlers:   
+      - name: restart zabbix-agent
+        ansible.builtin.service:
+            name: zabbix-agent
+            state: restarted
